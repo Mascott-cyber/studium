@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">#použít v každé html-správné otevření v mobilu#
+
+  <title>Nulák – O technice lidsky</title>
+
+  <style>
+    body {
+      margin: 0;
+      font-family: "Georgia", "Times New Roman", serif;
+      background: #f2efe9;
+      color: #111;
+    }
+
+    /* NOVINY */
+    .newspaper {
+      max-width: 1100px;
+      margin: 60px auto;
+      background: #fffdf8;
+      padding: 50px;
+      box-shadow: 0 15px 40px rgba(0,0,0,0.25);
+    }
+
+    /* HLAVIČKA */
+    .header {
+      text-align: center;
+      border-bottom: 4px double #000;
+      padding-bottom: 20px;
+      margin-bottom: 40px;
+    }
+
+    .header h1 {
+      font-size: 72px;
+      margin: 0;
+      letter-spacing: 4px;
+    }
+
+    .header p {
+      font-size: 18px;
+      margin-top: 10px;
+      font-style: italic;
+    }
+
+    /* SLOUPCE */
+    .columns {
+      column-count: 2;
+      column-gap: 50px;
+    }
+
+    /* ČLÁNKY */
+    article {
+      break-inside: avoid;
+      margin-bottom: 35px;
+    }
+
+    article h2 {
+      font-size: 26px;
+      margin-bottom: 8px;
+    }
+
+    .meta {
+      font-size: 14px;
+      font-style: italic;
+      color: #666;
+      margin-bottom: 10px;
+    }
+
+    article p {
+      line-height: 1.75;
+      text-align: justify;
+      font-size: 17px;
+    }
+
+    /* OBRÁZKY */
+    .article-image {
+      width: 100%;
+      margin: 15px 0;
+      border: 1px solid #ccc;
+    }
+
+    /* STRÁNKY */
+    .page {
+      display: none;
+    }
+
+    .page.active {
+      display: block;
+    }
+
+    /* NAVIGACE */
+    .navigation {
+      text-align: center;
+      margin-top: 40px;
+    }
+
+    .navigation button {
+      padding: 12px 24px;
+      margin: 0 10px;
+      font-size: 16px;
+      cursor: pointer;
+      border: 1px solid black;
+      background: white;
+    }
+
+    .navigation button:hover {
+      background: black;
+      color: white;
+    }
+
+    /* ZPĚT */
+    .back-btn {
+      position: fixed;
+      top: 20px;
+      left: 20px;
+      padding: 10px 16px;
+      background: black;
+      color: white;
+      border: none;
+      cursor: pointer;
+    }
+  </style>
+</head>
+
+<body>
+
+<button class="back-btn" onclick="goBack()">← Zpět</button>
+
+<div class="newspaper">
+
+  <div class="header">
+    <h1>NULÁK</h1>
+    <p>O technice lidsky</p>
+  </div>
+
+  <!-- STRANA 1 -->
+  <div class="page active">
+    <div class="columns">
+
+      <article>
+        <h2>Elektřina tu byla dřív než zásuvka</h2>
+        <div class="meta">Jak to začalo</div>
+
+        <p>
+          Když se řekne elektřina, většina lidí si představí zásuvku, vypínač
+          nebo účet za proud. Pravda je ale taková, že elektřina tu byla dávno
+          před tím, než člověk přišel na to, jak ji zkrotit.
+        </p>
+
+        <p>
+          Už staří Řekové si všimli, že když třou jantar o látku, začne přitahovat
+          drobné předměty. Právě z řeckého slova <em>elektron</em> vznikl název elektřina.
+        </p>
+
+        <p>
+          Dnes elektřinu bereme jako samozřejmost, ale za každým rozsvícením světla
+          stojí stovky let objevování, pokusů a omylů.
+        </p>
+      </article>
+
+      <article>
+        <h2>Původ elektřiny</h2>
+        <img src="img/elektrina-puvod.png" class="article-image" alt="Původ elektřiny">
+        <p>
+          Elektřina nevznikla v zásuvce. Byla tu dávno před námi a čekala,
+          až ji někdo pochopí a využije.
+        </p>
+      </article>
+
+    </div>
+  </div>
+
+  <!-- STRANA 2 -->
+  <div class="page">
+    <div class="columns">
+
+      <article>
+        <h2>Synchronní a asynchronní motor</h2>
+        <div class="meta">Jak se točí svět</div>
+        <p>
+          Když se řekne elektrický motor, 
+          většina lidí si představí něco, co se prostě točí a dělá hluk, ale realita je mnohem zajímavější. 
+          Ve strojích kolem nás pracují hlavně dva typy motorů – synchronní a asynchronní – a každý má úplně jinou povahu. 
+          Synchronní motor je takový perfekcionista: 
+          otáčí se přesně stejnou rychlostí, jakou mu určuje frekvence elektrické sítě, žádné zpoždění, žádné výmluvy. 
+          Když se má točit, tak se točí přesně, a proto ho najdeme tam, kde je důležitá přesnost a stabilita. 
+          Asynchronní motor je naopak pracant z praxe – sice se točí o něco pomaleji, než magnetické pole ve statoru, ale právě tenhle malý „skluz“ mu umožňuje vůbec fungovat. 
+          Díky jednoduché konstrukci, odolnosti a spolehlivosti je nejrozšířenějším motorem na světě a pohání většinu průmyslových strojů, ventilátorů nebo čerpadel. 
+          Zatímco synchronní motor si hlídá tempo jako hodinky, asynchronní motor si jede svým rytmem – a svět se díky němu nezastaví.
+        </p>
+      </article>
+
+      <article>
+        <h2>Motor</h2>
+        <img src="img/motor.png" class="article-image" alt="Motor">
+        <p>
+          Dva světy, jedno otáčení.
+        </p>
+      </article>
+
+    </div>
+  </div>
+
+  <!-- NAVIGACE -->
+  <div class="navigation">
+    <button onclick="prevPage()">◀ Předchozí</button>
+    <button onclick="nextPage()">Další ▶</button>
+  </div>
+
+</div>
+
+<script>
+  let currentPage = 0;
+  const pages = document.querySelectorAll(".page");
+
+  function showPage(index) {
+    pages.forEach(p => p.classList.remove("active"));
+    pages[index].classList.add("active");
+  }
+
+  function nextPage() {
+    if (currentPage < pages.length - 1) {
+      currentPage++;
+      showPage(currentPage);
+    }
+  }
+
+  function prevPage() {
+    if (currentPage > 0) {
+      currentPage--;
+      showPage(currentPage);
+    }
+  }
+
+  function goBack() {
+    window.location.href = "index.html";
+  }
+</script>
+
+</body>
+</html>
