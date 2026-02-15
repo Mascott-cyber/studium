@@ -235,10 +235,4 @@ article p {
   }
 
 }
-@media (max-width: 768px) {
-  body {
-    background: lime !important;
-  }
-}
-
 
