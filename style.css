@@ -226,4 +226,14 @@ article p {
     mix-blend-mode: normal;
   }
 
+  .noviny {
+    max-width: 280px;
+  }
+
+  .elektro {
+    max-width: 220px;
+  }
+
 }
+
+
