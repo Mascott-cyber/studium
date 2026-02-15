@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">#použít v každé html-správné otevření v mobilu#
+
+  <title>Studijní kvíz – Elektro</title>
+
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: url("kolazscifi.png") no-repeat center center fixed;
+      background-size: cover;
+      color: white;
+      text-align: center;
+      margin: 0;
+      padding: 0;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.6);
+      z-index: -1;
+    }
+
+    .container {
+      max-width: 900px;
+      margin: 40px auto;
+      background: rgba(255,255,255,0.1);
+      padding: 30px;
+      border-radius: 10px;
+    }
+
+    button {
+      display: block;
+      width: 100%;
+      margin: 10px 0;
+      padding: 12px;
+      font-size: 16px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    .answer { background: #ddd; color: black; }
+    .correct { background: #4CAF50; color: white; }
+    .wrong { background: #f44336; color: white; }
+    .menu-btn { background: #90caf9; color: black; }
+    .hidden { display: none; }
+
+    .back-btn {
+      position: fixed;
+      top: 20px;
+      left: 20px;
+      padding: 10px 16px;
+      background: rgba(0,0,0,0.7);
+      color: #f5e6c8;
+      border: 1px solid #c9a96a;
+      border-radius: 6px;
+      cursor: pointer;
+      z-index: 1000;
+    }
+  </style>
+</head>
+
+
+<body>
+
+<button class="back-btn" onclick="goBack()">← Zpět do rozcestníku</button>
+
+
+
+<div class="container">
+    <h1 id="title">Vyber kvíz</h1>
+    <div id="menu"></div>
+    <div id="quiz" class="hidden">
+        <h2 id="question"></h2>
+        <div id="answers"></div>
+        <p id="score"></p>
+    </div>
+    <div id="end" class="hidden">
+        <h2>Konec kvízu</h2>
+        <p id="finalScore"></p>
+        <button onclick="showMenu()">Zpět do menu</button>
+    </div>
+</div>
+
+<script>
+
+const QUIZZES = {
+    "Elektro": [
+        {question: "Co je elektrický proud?", answers: ["Pohyb protonů","Pohyb elektronů","Napětí"], correct: 1},
+        {question: "Jaký je vztah podle Ohmova zákona?", answers: ["U = I * R","R = U + I","U = R / I"], correct: 0},
+        {question: "Jednotka elektrického proudu je?", answers: ["Volt","Ampér","Ohm"], correct: 1},
+        {question: "Co znamená nízký odpor vodiče?", answers: ["Špatně vede proud", "Dobře vede proud", "Nevede proud vůbec"], correct: 1},
+        {question: "Jaký je rozdíl mezi vodičem, izolantem a polovodičem?", answers: ["Vodič má největší odpor", "Izolant vede nejlépe", "Vodič vede dobře, izolant špatně, polovodič podle podmínek"], correct: 2},
+        {question: "Co se stane s proudem v sériovém obvodu při zvýšení odporu?", answers: ["Proud se zvětší", "Proud se zmenší", "Proud zůstává stejný"], correct: 1},
+        {question: "Napětí v paralelním obvodu je?", answers: ["Vrůzných větvích různé", "Ve všech větvích stejné", "Záleží na délce vodičů"], correct: 1},
+        {question: "Co je elektrický výkon?", answers: ["Schopnost odporu produkovat teplo", "Množství proudu za sekundu", "Práce vykonaná za jednotku času"], correct: 2},
+        {question: "Jednotka elektrického proudu je?", answers: ["Volt", "Ampér", "Ohm"], correct: 1},
+        {question: "Jednotka elektrické energie je?", answers: ["Ampér", "Voltampér", "Joule nebo kWh"], correct: 2},
+        {question: "Co je uzavřený elektrický obvod?", answers: ["Neúplný obvod", "Obvod, ve kterém může téct proud", "Obvod bez zdroje"], correct: 1},
+        {question: "Co je zkrat?", answers: ["Obvod s velkým odporem", "Obvod s téměř nulovým odporem → velký proud", "Přerušení obvodu"], correct: 1},
+        {question: "Jaký odpor má ideální vodič?", answers: ["Nekonečně velký", "1 Ohm", "0 Ohmu"], correct: 2},
+        {question: "Co je specifický rezistivita?", answers: ["Napětí zdroje", "Vlastnost materiálu určující odpor", "Délka vodiče"], correct: 1},
+        {question: "Rozdíl mezi DC a AC proudem?", answers: ["DC mění směr, AC né", "DC teče jedním směrem, AC mění směr", "AC má vždy vyšší napětí"], correct: 1},
+        {question: "Frekvence sítě v Evropě je?", answers: ["60 Hz", "50Hz", "40Hz"], correct: 1},
+        {question: "Co způsobí zvýšení průřezů vodiče?", answers: ["Zvýší odpor", "Nezmění odpor", "Sníží odpor"], correct: 2},
+        {question: "Kirchhofův zákon pro proudy říká?", answers: ["Napětí na větvích je stejné", "Součet vstupujících proudů = součet odcházejících", "Proud je vždy stejný"], correct: 1},
+        {question: "Kirchhofův zákon pro napětí říká:", answers: ["Zdroje se sčítají s odpory", "Součet napětí ve smyčce = 0V", "Napětí je stejné v celém obvodu"], correct: 1},
+        {question: "Co je svorkové napětí?", answers: ["Napětí uvnitř baterie", "Napětí měřené na svorkách při zatížení", "Napětí v přívodním kabelu"], correct: 1},
+        {question: "Co je odporová síť?", answers: ["Jeden rezistor v obvodu", "Skupina více rezistorů propojených určitým způsobem", "Síťový adaptér"], correct: 1},
+        {question: "Co je značka SI?", answers: ["Starý index", "Mezinárodní soustava jednotek", "Sekundární izolace"], correct: 1},
+        {question: "Výkon se počítá jako?", answers: ["P = R * I", "P = U * I", "P = U - I"], correct: 1},
+        {question: "Co je elektrická kapacita?", answers: ["Schopnost odporu topit", "Schopnost vodiče zvětšovat proud", "Schopnost součástky uchovávat náboj"], correct: 2},
+        {question: "K jakým ztrátám dochází ve vodiči?", answers: ["Mechanickým", "Magnetickým", "Tepelným"], correct: 2},
+        {question: "Co ovlivňuje odpor vodiče?", answers: ["Barva izolace", "Délka, průřez, materiál, teplota", "Tip baterie"], correct: 1},
+        {question: "Co je Ohmický odpor?", answers: ["Odpor diody", "Odpor, který splňuje Ohmův zákon", "Proměnlivý odpor"], correct: 1},
+        {question: "Kdy platí Ohmův zákon?", answers: ["Pro LED", "Pro lineární prvky (rezistory)", "Pro všechny součástky?"], correct: 1},
+        {question: "Co je napěťový dělič?", answers: ["Zdroj s proměnným napětím", "Zapojení rezistorů prop snížení napětí", "Zkrat v obvodu"], correct: 1},
+        {question: "Co znamená vnitřní odpor zdroje?", answers: ["Zkrat mezi svorkami", "Část napětí se ztratí uvnitř zdroje při odběru", "Zvýšení proudů"], correct: 1},
+        {question: "Proč se vodiče zahřívají?", answers: ["Kvůli elektromagnetickému poli", "Kvůli nízkému napětí", "Kvůli odporu, který způsobuje teplo"], correct: 2}
+        
+    ],
+    "Bezpečnost": [
+        {question: "Jaká barva je ochranný vodič?", answers: ["Modrá","Zelenožlutá","Černá"], correct: 1},
+        {question: "K čemu slouží proudový chránič?", answers: ["K ochraně zařízení","K ochraně osob","Ke snížení spotřeby"], correct: 1},
+        {question: "Co je účelem ochranného vodiče PE?", answers: ["Přenos pracovního proudu", "Ochrana před přepětím", "Ochrana osob před úrazem elektrickým proudem"], correct: 2},
+        {question: "Kdy je elektrické zařízení považováno za bezpečné?", answers: ["Když je nové", "Když splňuje požadavky norem a je správně zapojeno", "Když má plastový kryt"], correct: 1},
+        {question: "Co znamená pojem „nebezpečné dotykové napětí“?", answers: ["Napětí vyšší než 400 V", "Napětí, které může způsobit úraz", "Napětí mezi fázemi"], correct: 1},
+        {question: "Jaká je maximální bezpečná hodnota dotykového napětí ve vlhkém prostředí?", answers: ["50 V", "25 V", "120 V"], correct: 1},
+        {question: "Co je základní ochranou před úrazem elektrickým proudem?", answers: ["Ochrana při poruše", "Základní izolace", "Proudový chránič"], correct: 1},
+        {question: "K čemu slouží proudový chránič (RCD)?", answers: ["K ochraně zařízení", "K ochraně osob při poruše", "Ke snížení spotřeby"], correct: 1},
+        {question: "Jaký proud může být pro člověka životu nebezpečný?", answers: ["1 mA", "10 mA", "30 mA a více"], correct: 2},
+        {question: "Kdy smí pracovník pracovat na zařízení pod napětím?", answers: ["Kdykoliv", "Nikdy", "Jen při splnění přísných bezpečnostních podmínek"], correct: 2},
+        {question: "Co znamená zkrat?", answers: ["Přerušení obvodu", "Spojení vodičů s velmi malým odporem", "Zvýšení napětí"], correct: 1},
+        {question: "Jaká barva se používá pro ochranný vodič?", answers: ["Modrá", "Zelenožlutá", "Černá"], correct: 1},
+        {question: "Co je ochrana samočinným odpojením od zdroje?", answers: ["Ochrana izolací", "Odpojení při poruše v předepsaném čase", "Ruční vypnutí"], correct: 1},
+        {question: "Kdo smí provádět práce na elektrickém zařízení?", answers: ["Každý zaměstnanec", "Pouze poučená osoba", "Osoba s odpovídající elektrotechnickou kvalifikací"], correct: 2},
+        {question: "Co je hlavním rizikem při práci ve vlhkém prostředí?", answers: ["Koroze", "Zvýšený odpor", "Snížený odpor lidského těla"], correct: 2},
+        {question: "Jaký je účel uzemnění?", answers: ["Zvýšení napětí", "Odvedení poruchového proudu do země", "Lepší vodivost obvodu"], correct: 1},
+        {question: "Co je osobní ochranný prostředek (OOPP)?", answers: ["Elektrické zařízení", "Ochranná pomůcka pracovníka", "Měřicí přístroj"], correct: 1},
+        {question: "Který z následujících je OOPP?", answers: ["Multimetr", "Izolační rukavice", "Rozvaděč"], correct: 1},
+        {question: "Co znamená značka blesku v trojúhelníku?", answers: ["Hořlavina", "Nebezpečí úrazu elektrickým proudem", "Vysoká teplota"], correct: 1},
+        {question: "Co se musí udělat před zahájením práce na elektrickém zařízení?", answers: ["Zapnout napětí", "Zajistit zařízení proti zapnutí", "Změřit proud"], correct: 1},
+        {question: "Jaký je první krok při úrazu elektrickým proudem?", answers: ["Zavolat lékaře", "Odpojit zdroj napětí", "Masáž srdce"], correct: 1},
+        {question: "Co je izolace vodiče?", answers: ["Kovový plášť", "Vrstva zabraňující dotyku živé části", "Zemní spoj"], correct: 1},
+        {question: "Jaký vliv má délka působení proudu na člověka?", answers: ["Žádný", "Čím delší, tím menší riziko", "Čím delší, tím větší nebezpečí"], correct: 2},
+        {question: "Co je ochrana dvojitou izolací?", answers: ["Dva jističe", "Dvě nezávislé izolační vrstvy", "Uzemnění krytu"], correct: 1},
+        {question: "Jaké napětí se považuje za bezpečné v suchém prostředí?", answers: ["Do 50 V", "Do 230 V", "Do 400 V"], correct: 0},
+        {question: "Co je revize elektrického zařízení?", answers: ["Oprava zařízení", "Kontrola bezpečnosti a stavu zařízení", "Zapnutí zařízení"], correct: 1},
+        {question: "Jaký je účel jističe?", answers: ["Zvýšit proud", "Chránit obvod před přetížením a zkratem", "Měřit napětí"], correct: 1},
+        {question: "Co znamená IP krytí?", answers: ["Typ izolace", "Stupeň ochrany proti vniknutí cizích těles a vody", "Typ napětí"], correct: 1},
+        {question: "Kdy je nutné použít ochranné brýle?", answers: ["Při práci s nízkým napětím", "Při mechanickém nebo elektrickém riziku", "Nikdy"], correct: 1},
+        {question: "Co je nebezpečnější: střídavý nebo stejnosměrný proud?", answers: ["Stejnosměrný", "Střídavý", "Jsou stejně nebezpečné"], correct: 1},
+        {question: "Co znamená pracovník „poučený“?", answers: ["Má výuční list", "Byl seznámen s riziky a bezpečností práce", "Má revizní oprávnění"], correct: 1},
+        {question: "Proč je zakázáno pracovat s poškozeným nářadím?", answers: ["Zhoršuje výkon", "Zvyšuje riziko úrazu", "Je hlučné"], correct: 1},
+    ],
+    "Elektrické obvody,součástky": [
+        {question: "Podle Ohmova zákona platí", answers: ["R = U * I", "I = U / R", "U = R / I"], "corect": 1},
+        {question: "Co se stane s celkovým oporem při sériovém zapojení rezistorů?", answers: ["Zmenší se", "Zůstane stejný", "Zvýší se"], correct: 2},
+        {question: "Jak se vypočítá celkový odpor dvou paralelně zapojených rezistorů", answers: ["R = R₁ + R₂", "1/R = 1/R₁ + 1/R₂", "R = R₁ · R₂"], correct: 1},
+        {question: "Který Kirchhoffův zákon platí prop uzly?", answers: ["Součet napětí v uzavřené smyčce je nula", "Součet proudů do uzlu se rovná součtu proudů z uzlu", "Proud je přímo úměrný napětí"], correct: 1},
+        {question: "Jaký je důsledek zkratu v obvodu?", answers: ["Zvýšení odporu", "Prudké zvýšení proudu", "Snížení napětí zdroje"], correct: 1},
+        {question: "Jaký fyzikální význam má elektrický odpor?", answers: ["Schopnost vodiče vést proud", "Schopnost bránit průchodu proudu", "Schopnost ukládat energii"], correct: 1},
+        {question: "Jak se chová ideální kondenzátor při stejnosměrném napětí po delší době?", answers: ["Propouští proud", "Nepropouští proud", "Zvyšuje proud"], correct: 1},
+        {question: "Jaká energie se ukládá v kondenzátoru?", answers: ["Mechanická", "Magnetická", "Elektrická"], correct: 2},
+        {question: "Co se stane s napětím na rezistorech zapojených paralelně?", answers: ["Je na každém jiné", "Je na všech stejné", "Závisí na odporu"], correct: 1},
+        {question: "Jaká je jednotka elektrického výkonu?", answers: ["Joule", "Watt", "Volt"], correct: 1},
+        {question: "Vzorec pro elektrický výkon je:", answers: ["P = U · I", "P = R / I", "P = U / I"], correct: 0},
+        {question: "Jaký je vztah mezi frekvencí a periodou?", answers: ["f = T", "f = 1/T", "f = T²"], correct: 1},
+        {question: "Jak se chová cívka při změně proudu?", answers: ["Brání změně proudu", "Okamžitě mění proud", "Nemá žádný vliv"], correct: 0},
+        {question: "Jaká veličina se ukládá v magnetickém poli cívky?", answers: ["Elektrický náboj", "Magnetická energie", "Tepelná energie"], correct: 1},
+        {question: "Co znamená polarita u součástky?", answers: ["Nezáleží na zapojení", "Má přesně daný směr zapojení", "Omezuje proud"], correct: 1},
+        {question: "Co se stane při přepólování elektrolytického kondenzátoru?", answers: ["Nic", "Zvýší se kapacita", "Může se poškodit nebo zničit"], correct: 2},
+        {question: "Jaký přístroj měří skutečnou efektivní hodnotu střídavého napětí?", answers: ["Běžný voltmetr", "True RMS měřicí přístroj", "Ampérmetr"], correct: 1},
+        {question: "Co znamená efektivní hodnota střídavého napětí?", answers: ["Maximální hodnota", "Průměrná hodnota", "Hodnota stejnosměrného napětí se stejným účinkem"], correct: 2},
+        {question: "Jaký je fázový posun mezi proudem a napětím u ideální cívky?", answers: ["0°", "90°", "180°"], correct: 1},
+        {question: "Jaký je fázový posun u ideálního kondenzátoru?", answers: ["Proud se zpožďuje", "Proud je ve fázi", "Proud předbíhá napětí"], "corect": 2},
+        {question: "Co je impedance?", answers: ["Odpor pouze pro stejnosměrný proud", "Celkový odpor ve střídavém obvodu", "Tepelná ztráta"], correct: 1},
+        {question: "Jaký symbol má cívka ve schématu?", answers: ["Klikatá čára", "Obloučky vedle sebe", "Kruh s křížem"], correct: 1},
+        {question: "Jak se mění proud při zvýšení napětí při konstantním odporu?", answers: ["Sníží se", "Zůstane stejný", "Zvýší se"], correct: 2},
+        {question: "Co určuje kapacitu kondenzátoru?", answers: ["Materiál vodiče", "Velikost napětí", "Plocha elektrod a vzdálenost mezi nimi"], correct: 2},
+        {question: "Jaký je účel ochranného vodiče PE?", answers: ["Vede pracovní proud", "Chrání před úrazem elektrickým proudem", "Zvyšuje výkon"], correct: 1},
+        {question: "Co je vlastní indukčnost?", answers: ["Schopnost vodiče vést proud", "Schopnost cívky bránit změně proudu", "Schopnost ukládat náboj"], correct: 1},
+        {question: "Jaký je vztah mezi výkonem, napětím a odporem?", answers: ["P = U² / R", "P = R / U²", "P = U · R"], correct: 0},
+        {question: "Co je jalový výkon?", answers: ["Výkon přeměněný na teplo", "Výkon konající práci", "Výkon kmitající mezi zdrojem a spotřebičem"], correct: 2},
+        {question: "Jaká jednotka se používá pro kapacitu?", answers: ["Henry", "Farad", "Ohm"], correct: 1},
+        {question: "Jaký je hlavní rozdíl mezi sériovým a paralelním zapojením?", answers: ["Jiný zdroj napětí", "Jiný způsob rozdělení proudu a napětí", "Jiný druh vodiče"], correct: 1}, 
+    ],
+    "Elektrický motor": [
+        {question: "Co je hlavní funkcí elektrického motoru? ", answers: ["Přeměna mechanické energie na elektrickou ", "Přeměna elektrické energie na mechanickou ", "Přeměna tepelné energie na elektrickou "], correct: 1},
+        {question: "Základní částí každého elektrického motoru je: ", answers: ["Transformátor ", "Stator a rotor ", "Kondenzátor "], correct: 1},
+        {question: "Která část motoru se otáčí? ", answers: ["Stator ", "Ložisko ", "Rotor "], correct: 2},
+        {question: "Jaký motor se používá nejčastěji v průmyslu? ", answers: ["Stejnosměrný motor ", "Asynchronní motor ", "Krokový motor "], correct: 1},
+        {question: "Co vytváří točivé magnetické pole? ", answers: ["Jednofázové napětí ", "Třífázové napětí ", "Stejnosměrné napětí "], correct: 1},
+        {question: "Jaký proud protéká asynchronním motorem? ", answers: ["Stejnosměrný ", "Impulsní ", "Střídavý "], correct: 2},
+        {question: "Co je skluz motoru? ", answers: ["Rozdíl otáček statoru a rotoru ", "Ztráta výkonu ", "Přehřátí motoru "], correct: 0},
+        {question: "Jednotkou výkonu motoru je: ", answers: ["Volt ", "Ampér ", "Watt "], correct: 2},
+        {question: "Jak se značí jmenovité napětí? ", answers: ["In ", "Un ", "Pn "], correct: 1},
+        {question: "K čemu slouží štítek motoru? ", answers: ["K chlazení ", "K identifikaci parametrů motoru ", "K upevnění motoru "], correct: 1},
+        {question: "Co znamená označení IP na motoru? ", answers: ["Izolační třídu ", "Stupeň krytí ", "Typ ložisek "], correct: 1},
+        {question: "Jaký motor má komutátor? ", answers: ["Asynchronní ", "Stejnosměrný ", "Synchronní "], correct: 1},
+        {question: "Která část zajišťuje přívod proudu do rotoru u DC motoru? ", answers: ["Stator ", "Kartáče ", "Ložiska "], correct: 1},
+        {question: "Co se stane při přetížení motoru? ", answers: ["Zvýší se účinnost ", "Sníží se proud ", "Motor se zahřívá "], correct: 2},
+        {question: "Jaká je funkce ložisek? ", answers: ["Izolace ", "Snížení tření ", "Zvýšení výkonu "], correct: 1},
+        {question: "Který motor má stálé otáčky? ", answers: ["Asynchronní ", "Synchronní ", "Univerzální "], correct: 1},
+        {question: "Co určuje směr otáčení motoru? ", answers: ["Napětí ", "Pořadí fází ", "Výkon "], correct: 1},
+        {question: "Jak se změní směr otáčení třífázového motoru? ", answers: ["Zvýšením napětí ", "Záměnou dvou fází ", "Změnou výkonu "], correct: 1},
+        {question: "Co je účinnost motoru? ", answers: ["Příkon ", "Poměr výkonu a příkonu ", "Ztrátový výkon "], correct: 1},
+        {question: "Co způsobuje hlučnost motoru? ", answers: ["Napětí ", "Proud ", "Vibrace a ložiska "], correct: 2},
+        {question: "Jaký motor se používá v ručním nářadí? ", answers: ["Asynchronní ", "Univerzální motor ", "Synchronní "], correct: 1},
+        {question: "Co je jmenovitý proud? ", answers: ["Maximální proud ", "Zkratový proud ", "Proud při jmenovitém zatížení "], correct: 2},
+        {question: "K čemu slouží chlazení motoru? ", answers: ["Zvýšení výkonu ", "Odvod tepla ", "Změna otáček "], correct: 1},
+        {question: "Co je rozběhový proud? ", answers: ["Proud při vypnutí ", "Proud při startu motoru ", "Proud při brzdění "], correct: 1},
+        {question: "Jaký motor má klecový rotor? ", answers: ["Stejnosměrný ", "Asynchronní ", "Krokový "], correct: 1},
+        {question: "Co se stane při ztrátě fáze? ", answers: ["Motor se přehřívá", "Motor běží normálně ", "Zvýší se výkon "], correct: 0},
+        {question: "K čemu slouží tepelná ochrana? ", answers: ["K chlazení ", "K ochraně proti přehřátí ", "K regulaci otáček "], correct: 1},
+        {question: "Jaký motor má nejjednodušší konstrukci? ", answers: ["Synchronní ", "Asynchronní ", "Stejnosměrný "], correct: 1},
+        {question: "Co znamená cos φ? ", answers: ["Napětí ", "Výkon ", "Účiník "], correct: 2},
+        {question: "Jaký motor pracuje na principu elektromagnetické indukce? ", answers: ["Asynchronní ", "Stejnosměrný ", "Krokový "], correct: 0},
+
+    ]
+};
+
+let currentQuiz = [];
+let currentIndex = 0;
+let score = 0;
+let quizName = "";
+
+function shuffle(array) {
+    return array.sort(() => Math.random() - 0.5);
+}
+
+function showMenu() {
+    document.getElementById("menu").innerHTML = "";
+    document.getElementById("menu").classList.remove("hidden");
+    document.getElementById("quiz").classList.add("hidden");
+    document.getElementById("end").classList.add("hidden");
+    document.getElementById("title").innerText = "Vyber kvíz";
+
+    for (let name in QUIZZES) {
+        let btn = document.createElement("button");
+        btn.innerText = name;
+        btn.className = "menu-btn";
+        btn.onclick = () => startQuiz(name);
+        document.getElementById("menu").appendChild(btn);
+    }
+}
+
+function startQuiz(name) {
+    quizName = name;
+    currentQuiz = shuffle([...QUIZZES[name]]);
+    currentIndex = 0;
+    score = 0;
+
+    document.getElementById("menu").classList.add("hidden");
+    document.getElementById("quiz").classList.remove("hidden");
+    document.getElementById("title").innerText = name;
+
+    showQuestion();
+}
+
+function showQuestion() {
+    let q = currentQuiz[currentIndex];
+    document.getElementById("question").innerText = q.question;
+    document.getElementById("answers").innerHTML = "";
+    document.getElementById("score").innerText = `Skóre: ${score}`;
+
+    q.answers.forEach((ans, index) => {
+        let btn = document.createElement("button");
+        btn.innerText = ans;
+        btn.className = "answer";
+        btn.onclick = () => checkAnswer(index);
+        document.getElementById("answers").appendChild(btn);
+    });
+}
+
+function checkAnswer(index) {
+    let q = currentQuiz[currentIndex];
+    let buttons = document.querySelectorAll(".answer");
+
+    buttons.forEach((btn, i) => {
+        btn.disabled = true;
+        if (i === q.correct) btn.classList.add("correct");
+        if (i === index && i !== q.correct) btn.classList.add("wrong");
+    });
+
+    if (index === q.correct) score++;
+
+    setTimeout(() => {
+        currentIndex++;
+        if (currentIndex >= currentQuiz.length) {
+            showEnd();
+        } else {
+            showQuestion();
+        }
+    }, 1500);
+}
+
+function showEnd() {
+    document.getElementById("quiz").classList.add("hidden");
+    document.getElementById("end").classList.remove("hidden");
+
+    let percent = Math.round(score / currentQuiz.length * 100);
+    document.getElementById("finalScore").innerText =
+        `${quizName}: ${score}/${currentQuiz.length} (${percent}%)`;
+}
+function goBack() {
+  window.location.href = "elektro.html";
+}
+
+showMenu();
+
+</script>
+</body>
+</html>
