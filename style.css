@@ -4,16 +4,12 @@
   box-sizing: border-box;
 }
 
-body {
-  background: rgb(10, 1, 1);
-  font-family: serif;
-}
 
 #scene {
   position: relative;
   width: 100vw;
   height: 100vh;
-  background: url("index.png") center/cover no-repeat;
+  background: url("img/index.png") center/cover no-repeat;
   overflow: hidden;
 
   transition: transform 1.5s ease;
@@ -213,38 +209,9 @@ article p {
    MOBILNÍ ROZLOŽENÍ
    ========================= */
 @media (max-width: 768px) {
-
-  /* zrušíme scénu jako „místnost“ */
-  #scene {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    height: auto;
-    min-height: 100vh;
-    padding: 40px 20px;
-    background-position: center top;
-  }
-
-  /* hotspoty se chovají jako tlačítka */
   .hotspot {
-    position: static;
-    width: 80%;
-    max-width: 320px;
-    margin: 20px 0;
+    position: static !important;
+    width: 80% !important;
+    margin: 20px 0 !important;
   }
-
-  .hotspot img {
-    width: 100%;
-  }
-
-  /* jemné oddělení prvků */
-  .noviny,
-  .elektro {
-    left: auto;
-    top: auto;
-    transform: none;
-  }
-
 }
-
