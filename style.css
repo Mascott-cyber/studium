@@ -215,6 +215,11 @@ article p {
     bottom: 0;
     left: 0;
     width: 100%;
+    @media (max-width: 768px) {
+  #scene {
+    min-height: 100svh;
+  }
+}
 
     display: flex;
     justify-content: space-around;
