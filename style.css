@@ -209,39 +209,7 @@ article p {
    MOBILNÍ ROZLOŽENÍ
    ========================= */
 @media (max-width: 768px) {
-
-  #scene {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    height: auto;
-    min-height: 100vh;
-    padding-top: 60px;
+  body {
+    background: red !important;
   }
-
-  .hotspot {
-    position: static !important;   /* ⬅️ KLÍČ */
-    width: 80%;
-    max-width: 320px;
-    margin: 20px 0;
-    background: rgba(255, 248, 230, 0.85);
-    border-radius: 16px;
-    padding: 16px;
-    box-shadow: 0 10px 25px rgba(0,0,0,0.25);
-  }
-
-  .hotspot img {
-    filter: none;
-    mix-blend-mode: normal;
-  }
-
-  .noviny,
-  .elektro {
-    left: auto;
-    top: auto;
-    transform: none;
-  }
-
 }
-
