@@ -1,62 +1,30 @@
 <!DOCTYPE html>
 <html lang="cs">
 <head>
-<meta charset="UTF-8">
-<title>Moje studijní projekty</title>
-<style>
-body {
-    font-family: Arial, sans-serif;
-    background: url("kolazscifi.png") no-repeat center center fixed;
-    background-size: cover;
-    margin: 0;
-    color: white;
-    text-align: center;
-}
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">#použít v každé html-správné otevření v mobilu#
 
-body::before {
-    content: "";
-    position: fixed;
-    width: 100%;
-    height: 100%;
-    background: rgba(0,0,0,0.6);
-    top: 0;
-    left: 0;
-}
-
-.container {
-    position: relative;
-    z-index: 1;
-    margin-top: 150px;
-}
-
-button {
-    padding: 15px 30px;
-    font-size: 18px;
-    margin: 15px;
-    border: none;
-    border-radius: 8px;
-    cursor: pointer;
-}
-
-.project {
-    background: #90caf9;
-}
-</style>
+<!--  <title>Studijní rozcestník</title> -->
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-<div class="container">
-    <h1>Moje studijní projekty</h1>
-    <button class="project" onclick="openProject('elektro.html')">
-        ⚡ Elektro kvíz
-    </button>
+<div id="scene">
+
+<!--  <div id="title">Studijní rozcestník</div> -->
+
+  <!-- NOVINY -->
+  <div class="hotspot noviny" onclick="openNulak()">
+    <img src="img/noviny-nulak.PNG" alt="Noviny Nulák">
+  </div>
+
+  <!-- KNIHA ELEKTRO -->
+  <div class="hotspot elektro" onclick="openElektro()">
+    <img src="img/kniha-elektro.png" alt="Kniha Elektro">
+  </div>
+
 </div>
 
-<script>
-function openProject(page) {
-    window.location.href = page;
-}
-</script>
-
+<script src="script.js"></script>
 </body>
 </html>
