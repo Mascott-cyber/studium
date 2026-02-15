@@ -211,10 +211,20 @@ article p {
 @media (max-width: 768px) {
 
   #scene {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: auto;
+    min-height: 100vh;
     padding-top: 60px;
   }
 
   .hotspot {
+    position: static !important;   /* ⬅️ KLÍČ */
+    width: 80%;
+    max-width: 320px;
+    margin: 20px 0;
     background: rgba(255, 248, 230, 0.85);
     border-radius: 16px;
     padding: 16px;
@@ -226,12 +236,11 @@ article p {
     mix-blend-mode: normal;
   }
 
-  .noviny {
-    max-width: 280px;
-  }
-
+  .noviny,
   .elektro {
-    max-width: 220px;
+    left: auto;
+    top: auto;
+    transform: none;
   }
 
 }
