@@ -13,7 +13,7 @@ body {
   position: relative;
   width: 100vw;
   height: 100vh;
-  background: url("index.PNG") center/cover no-repeat;
+  background: url("index.png") center/cover no-repeat;
   overflow: hidden;
 
   transition: transform 1.5s ease;
