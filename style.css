@@ -210,30 +210,30 @@ article p {
    MOBILNÍ ROZLOŽENÍ
    ========================= */
 @media (max-width: 768px) {
+  .menu {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
 
-  #scene {
-    padding-top: 60px;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+
+    background: #222;
+    padding: 12px 0;
+    z-index: 1000;
   }
 
-  .hotspot {
-    background: rgba(255, 248, 230, 0.85);
-    border-radius: 16px;
-    padding: 16px;
-    box-shadow: 0 10px 25px rgba(0,0,0,0.25);
+  body {
+    padding-bottom: 60px; /* aby obsah nebyl schovaný pod menu */
   }
-
-  .hotspot img {
-    filter: none;
-    mix-blend-mode: normal;
-  }
-
-  .noviny {
-    max-width: 280px;
-  }
-
-  .elektro {
-    max-width: 220px;
-  }
-
 }
-
+@media (max-width: 768px) {
+  .menu a {
+    color: white;
+    text-decoration: none;
+    font-size: 1rem;
+    padding: 10px;
+  }
+}
