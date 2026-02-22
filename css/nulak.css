@@ -1,0 +1,94 @@
+/* ZÁKLAD */
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: "Georgia", serif;
+  background: #eaf4fb; /* světle modrá */
+  color: #222;
+}
+
+/* HORNÍ LIŠTA */
+.top-bar {
+  padding: 10px 20px;
+}
+
+.home {
+  background: #1e88e5;
+  color: white;
+  border: none;
+  padding: 10px 16px;
+  cursor: pointer;
+  border-radius: 6px;
+}
+
+.home:hover {
+  background: #1565c0;
+}
+
+/* HLAVNÍ KONTEJNER */
+.magazine {
+  max-width: 900px;
+  margin: auto;
+  padding: 20px;
+}
+
+/* TITUL */
+.title {
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.title h1 {
+  font-size: 3rem;
+  margin-bottom: 5px;
+}
+
+.subtitle {
+  color: #555;
+  font-style: italic;
+}
+
+/* ČLÁNKY */
+article {
+  background: white;
+  padding: 20px;
+  margin-bottom: 25px;
+  border-radius: 10px;
+  box-shadow: 0 6px 20px rgba(0,0,0,0.08);
+}
+
+article h2 {
+  margin-top: 0;
+  color: #1e88e5;
+}
+
+.meta {
+  font-size: 0.9rem;
+  color: #777;
+  margin-bottom: 10px;
+}
+
+article p {
+  line-height: 1.6;
+}
+
+/* OBRÁZKY */
+article img {
+  width: 100%;
+  border-radius: 8px;
+  margin: 15px 0;
+}
+
+/* MOBIL */
+@media (max-width: 600px) {
+  .title h1 {
+    font-size: 2.2rem;
+  }
+
+  article {
+    padding: 16px;
+  }
+}
